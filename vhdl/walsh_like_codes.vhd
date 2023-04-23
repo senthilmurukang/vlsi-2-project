@@ -7,33 +7,31 @@ ENTITY walsh_like_codes IS
   PORT (
     SIGNAL clk : IN STD_LOGIC;
     SIGNAL reset : IN STD_LOGIC;
-    SIGNAL low_speed_clk : OUT STD_LOGIC := '0'
+    SIGNAL output : OUT STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0')
   );
 END ENTITY;
 
 ARCHITECTURE behaviour OF walsh_like_codes IS
-  SIGNAL count_reg : STD_LOGIC_VECTOR (4 DOWNTO 0) := (OTHERS => '0');
-  SIGNAL min_count : STD_LOGIC_VECTOR (4 DOWNTO 0) := (OTHERS => '0');
-  SIGNAL mid_count : STD_LOGIC_VECTOR (4 DOWNTO 0) := "10000";
-  SIGNAL max_count : STD_LOGIC_VECTOR (4 DOWNTO 0) := (OTHERS => '1');
+  SIGNAL int_clk : STD_LOGIC := '0';
+  SIGNAL user_data : STD_LOGIC_VECTOR(31 DOWNTO 0) := "10111011101110111011101110111011";
+  SIGNAL serial_user_data : STD_LOGIC := '0';
 BEGIN
-  clk_process : PROCESS (clk, reset)
-    VARIABLE int_clk : STD_LOGIC := '0';
-  BEGIN
-    IF reset = '1' THEN
-      count_reg <= min_count;
-    ELSIF rising_edge(clk) THEN
-      IF count_reg = max_count THEN
-        count_reg <= min_count;
-      ELSE
-        count_reg <= count_reg + 1;
-      END IF;
-      IF count_reg = mid_count THEN
-        int_clk := '0';
-      ELSIF count_reg = min_count THEN
-        int_clk := '1';
-      END IF;
-    END IF;
-    low_speed_clk <= int_clk;
-  END PROCESS clk_process;
+  internal_clock_generator_inst : ENTITY work.internal_clock_generator
+    PORT MAP(
+      clk => clk,
+      reset => reset,
+      low_speed_clk => int_clk
+    );
+  std_logic_vector_to_serial_inst : ENTITY work.std_logic_vector_to_serial
+    PORT MAP(
+      clk => clk,
+      input => user_data,
+      output => serial_user_data
+    );
+  serial_to_std_logic_vector_inst : ENTITY work.serial_to_std_logic_vector
+    PORT MAP(
+      clk => int_clk,
+      input => serial_user_data,
+      output => output
+    );
 END behaviour;
