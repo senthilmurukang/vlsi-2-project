@@ -16,7 +16,7 @@ BEGIN
   counter : PROCESS (clk, start, reset)
     VARIABLE count : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
     VARIABLE int_clk : STD_LOGIC := '0';
-  BEGIN 
+  BEGIN
     IF (reset = '1') THEN
       count := (OTHERS => '0');
     ELSIF (clk'event AND clk = '1') THEN
