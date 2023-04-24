@@ -1,0 +1,20 @@
+vhdl/work/
+# ignore all . files
+.*
+# Don't ignore any folders
+!.*/
+
+# Dont ignore .gitignore (this file)
+# This is just for verbosity, you can leave it out if
+# .gitignore is already tracked or if you use -f to
+# force-add it if you just created it
+!/.gitignore
+
+# ignore unnecessary files
+_info
+schematic/*
+vhdl/*
+!vhdl/*.vhd
+leo/*
+!leo/*.vhd
+!leo/*.v
