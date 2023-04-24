@@ -15,7 +15,7 @@ END ENTITY;
 
 ARCHITECTURE behaviour OF walsh_like_encoder IS
     SIGNAL positive_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0001";
-    SIGNAL negative_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1001";
+    SIGNAL negative_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1111";
     SIGNAL user_data_high_on_high_speed_rising : STD_LOGIC := '0';
     SIGNAL user_data_low_on_high_speed_rising : STD_LOGIC := '0';
 BEGIN
