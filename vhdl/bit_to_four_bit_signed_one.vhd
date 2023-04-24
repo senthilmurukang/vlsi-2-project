@@ -5,7 +5,7 @@ USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 ENTITY bit_to_four_bit_signed_one IS
     PORT (
-        clk : IN STD_LOGIC;
+        medium_speed_clk : IN STD_LOGIC;
         low_speed_clk : IN STD_LOGIC;
         inputBit : IN STD_LOGIC;
         outputBit : OUT STD_LOGIC);
@@ -16,11 +16,11 @@ ARCHITECTURE behavioral OF bit_to_four_bit_signed_one IS
     SIGNAL input_bit_value : BIT := '0';
     SHARED VARIABLE counter : NATURAL := 0;
 BEGIN
-    PROCESS (clk)
+    PROCESS (medium_speed_clk)
         VARIABLE positive_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0001";
         VARIABLE negative_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1001";
     BEGIN
-        IF rising_edge(clk) THEN
+        IF rising_edge(medium_speed_clk) THEN
             IF input_bit_value = '1' THEN
                 outputReg <= positive_one_bits(counter);
             ELSE
