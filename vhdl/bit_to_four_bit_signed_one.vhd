@@ -19,7 +19,7 @@ ARCHITECTURE behavioral OF bit_to_four_bit_signed_one IS
 BEGIN
     PROCESS (high_speed_clk)
         VARIABLE positive_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0001";
-        VARIABLE negative_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1001";
+        VARIABLE negative_one_bits : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1111";
     BEGIN
         IF rising_edge(high_speed_clk) THEN
             IF input_bit_value = '1' THEN
