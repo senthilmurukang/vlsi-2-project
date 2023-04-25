@@ -15,7 +15,7 @@ ARCHITECTURE behaviour OF walsh_like_encoder IS
     SIGNAL output_reg : STD_LOGIC := '0';
 BEGIN
 
-    encoder : PROCESS (chip_sequence)
+    encoder : PROCESS (user_data, chip_sequence)
     BEGIN
 
         IF user_data = '1' THEN
