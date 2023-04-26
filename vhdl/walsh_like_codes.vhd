@@ -47,7 +47,6 @@ BEGIN
     );
   walsh_like_encoder_inst_1 : ENTITY work.walsh_like_encoder
     PORT MAP(
-      medium_speed_clk => int_medium_clk,
       user_data => serial_user_data_1,
       chip_sequence => serial_walsh_like_code_1,
       encoded_output => encoded_output_1
@@ -61,7 +60,6 @@ BEGIN
   bit_to_four_bit_signed_one_inst : ENTITY work.bit_to_four_bit_signed_one
     PORT MAP(
       high_speed_clk => clk,
-      medium_speed_clk => int_medium_clk,
       input_bit => encoded_output_1,
       output_bit => signed_output_1
     );
