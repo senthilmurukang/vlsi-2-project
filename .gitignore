@@ -12,9 +12,5 @@ vhdl/work/
 
 # ignore unnecessary files
 _info
-schematic/*
-vhdl/*
-!vhdl/*.vhd
-leo/*
-!leo/*.vhd
-!leo/*.v
+**.log
+schematic/
