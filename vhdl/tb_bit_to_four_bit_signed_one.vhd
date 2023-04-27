@@ -15,7 +15,7 @@ ARCHITECTURE behavior OF tb_bit_to_four_bit_signed_one IS
     SIGNAL data_out : STD_LOGIC; -- Output data
 
     -- Component declaration for the DUT
-    COMPONENT bit_to_four_bit_signed_one IS
+    COMPONENT one_bit_to_n_bit_signed_one IS
         PORT (
             high_speed_clk : IN STD_LOGIC;
             input_bit : IN STD_LOGIC;
@@ -79,7 +79,7 @@ BEGIN
     END PROCESS;
 
     -- Instantiate the DUT
-    dut_bit_to_four_bit_signed_one : bit_to_four_bit_signed_one
+    dut_bit_to_four_bit_signed_one : one_bit_to_n_bit_signed_one
     PORT MAP(
         high_speed_clk => clk,
         input_bit => data_in,
