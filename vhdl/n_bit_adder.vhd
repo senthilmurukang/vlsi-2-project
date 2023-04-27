@@ -12,7 +12,7 @@ ENTITY n_bit_adder IS
         medium_speed_clk : IN STD_LOGIC;
         input_a : IN STD_LOGIC;
         input_b : IN STD_LOGIC;
-        output_sum : OUT STD_LOGIC
+        output_sum : OUT STD_LOGIC := '0'
     );
 END ENTITY;
 
