@@ -3,11 +3,11 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-ENTITY tb_bit_to_four_bit_signed_one IS
-END ENTITY tb_bit_to_four_bit_signed_one;
+ENTITY tb_one_bit_to_n_bit_signed_one IS
+END ENTITY tb_one_bit_to_n_bit_signed_one;
 
 -- Architecture for the Test Bench
-ARCHITECTURE behavior OF tb_bit_to_four_bit_signed_one IS
+ARCHITECTURE behavior OF tb_one_bit_to_n_bit_signed_one IS
 
     -- Signal declarations
     SIGNAL clk : STD_LOGIC := '0'; -- Clock signal
@@ -79,7 +79,7 @@ BEGIN
     END PROCESS;
 
     -- Instantiate the DUT
-    dut_bit_to_four_bit_signed_one : one_bit_to_n_bit_signed_one
+    dut_one_bit_to_n_bit_signed_one : one_bit_to_n_bit_signed_one
     PORT MAP(
         high_speed_clk => clk,
         input_bit => data_in,
