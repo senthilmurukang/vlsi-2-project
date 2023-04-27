@@ -7,7 +7,7 @@ ENTITY walsh_like_codes IS
   PORT (
     SIGNAL clk : IN STD_LOGIC;
     SIGNAL reset : IN STD_LOGIC;
-    SIGNAL output : OUT STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0')
+    SIGNAL output : OUT STD_LOGIC
   );
 END ENTITY;
 
@@ -98,11 +98,5 @@ BEGIN
       input_b => signed_output_2,
       output_sum => transmit_signal
     );
-  serial_to_std_logic_vector_inst : ENTITY work.serial_to_std_logic_vector
-    GENERIC MAP(DATA_WIDTH => 8)
-    PORT MAP(
-      clk => clk,
-      input => transmit_signal,
-      output => output
-    );
+  output <= transmit_signal;
 END behaviour;
