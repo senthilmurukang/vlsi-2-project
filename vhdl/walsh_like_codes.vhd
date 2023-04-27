@@ -7,12 +7,11 @@ ENTITY walsh_like_codes IS
   PORT (
     SIGNAL clk : IN STD_LOGIC;
     SIGNAL reset : IN STD_LOGIC;
-    SIGNAL output : OUT STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0')
+    SIGNAL output : OUT STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0')
   );
 END ENTITY;
 
 ARCHITECTURE behaviour OF walsh_like_codes IS
-  SIGNAL int_high_clk : STD_LOGIC := '0';
   SIGNAL int_medium_clk : STD_LOGIC := '0';
   SIGNAL int_low_clk : STD_LOGIC := '0';
   SIGNAL user_data_1 : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1011";
@@ -33,14 +32,13 @@ BEGIN
     PORT MAP(
       clk => clk,
       reset => reset,
-      high_speed_clk => int_high_clk,
       medium_speed_clk => int_medium_clk,
       low_speed_clk => int_low_clk
     );
   std_logic_vector_to_serial_inst_1 : ENTITY work.std_logic_vector_to_serial
     GENERIC MAP(DATA_WIDTH => 4)
     PORT MAP(
-      clk => int_medium_clk,
+      clk => int_low_clk,
       input => user_data_1,
       output => serial_user_data_1
     );
@@ -54,7 +52,7 @@ BEGIN
   std_logic_vector_to_serial_inst_3 : ENTITY work.std_logic_vector_to_serial
     GENERIC MAP(DATA_WIDTH => 4)
     PORT MAP(
-      clk => int_medium_clk,
+      clk => int_low_clk,
       input => user_data_2,
       output => serial_user_data_2
     );
@@ -78,32 +76,32 @@ BEGIN
       encoded_output => encoded_output_2
     );
   one_bit_to_n_bit_signed_one_inst_1 : ENTITY work.one_bit_to_n_bit_signed_one
-    GENERIC MAP(DATA_WIDTH => 4)
+    GENERIC MAP(DATA_WIDTH => 8)
     PORT MAP(
-      high_speed_clk => int_high_clk,
+      high_speed_clk => clk,
       input_bit => encoded_output_1,
       output_bit => signed_output_1
     );
   one_bit_to_n_bit_signed_one_inst_2 : ENTITY work.one_bit_to_n_bit_signed_one
-    GENERIC MAP(DATA_WIDTH => 4)
+    GENERIC MAP(DATA_WIDTH => 8)
     PORT MAP(
-      high_speed_clk => int_high_clk,
+      high_speed_clk => clk,
       input_bit => encoded_output_2,
       output_bit => signed_output_2
     );
   n_bit_adder_inst : ENTITY work.n_bit_adder
-    GENERIC MAP(INPUT_WIDTH => 4)
+    GENERIC MAP(INPUT_WIDTH => 8)
     PORT MAP(
-      high_speed_clk => int_high_clk,
+      high_speed_clk => clk,
       medium_speed_clk => int_medium_clk,
       input_a => signed_output_1,
       input_b => signed_output_2,
       output_sum => transmit_signal
     );
   serial_to_std_logic_vector_inst : ENTITY work.serial_to_std_logic_vector
-    GENERIC MAP(DATA_WIDTH => 128)
+    GENERIC MAP(DATA_WIDTH => 8)
     PORT MAP(
-      clk => int_high_clk,
+      clk => clk,
       input => transmit_signal,
       output => output
     );
