@@ -1,30 +1,35 @@
-LIBRARY ieee;
-USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_ARITH.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.STD_LOGIC_ARITH.all;
+use IEEE.STD_LOGIC_UNSIGNED.all;
 
-ENTITY normalization IS
-    GENERIC (
-        DATA_SIZE : NATURAL := 4
-    );
-    PORT (
-        SIGNAL clk : IN STD_LOGIC;
-        SIGNAL adder_data : IN STD_LOGIC_VECTOR(DATA_SIZE - 1 DOWNTO 0);
-        SIGNAL normalized_output : OUT STD_LOGIC_VECTOR(DATA_SIZE - 1 DOWNTO 0)
+entity normalization is
+    generic (
+        DATA_SIZE : natural := 8
+        );
+    port (
+        signal clk               : in  std_logic;
+        signal adder_ready       : in  std_logic;
+        signal adder_data        : in  std_logic_vector(DATA_SIZE - 1 downto 0);
+        signal normalized_output : out std_logic_vector(DATA_SIZE - 1 downto 0) := (others => '0')
 
-    );
-END ENTITY;
+        );
+end entity;
 
-ARCHITECTURE behaviour OF normalization IS
-BEGIN
-    PROCESS (adder_data, clk)
-    BEGIN
-        IF rising_edge(clk) THEN
-            IF adder_data(DATA_SIZE - 1) = '1' THEN
-                normalized_output <= "1111";
-            ELSE
-                normalized_output <= "0001";
-            END IF;
-        END IF;
-    END PROCESS;
-END ARCHITECTURE;
+architecture behaviour of normalization is
+begin
+    process (adder_data, clk)
+    begin
+        if adder_ready = '1' then
+            if rising_edge(clk) then
+                if adder_data(DATA_SIZE - 1) = '1' then
+                    normalized_output <= "11111111";
+                else
+                    normalized_output <= "00000001";
+                end if;
+            end if;
+        else
+            normalized_output <= "00000000";
+        end if;
+    end process;
+end architecture;
