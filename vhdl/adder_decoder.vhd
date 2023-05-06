@@ -9,6 +9,7 @@ entity adder_decoder is
         count_size : natural := 32
         );
     port (clk          : in  std_logic;
+          adder_ready  : out std_logic                                := '0';
           input_signal : in  std_logic_vector(DATA_SIZE - 1 downto 0);
           output_adder : out std_logic_vector(DATA_SIZE - 1 downto 0) := (others => '0')
           );
@@ -29,6 +30,7 @@ begin
                 output_buffer := std_logic_vector(signed(output_buffer)) + std_logic_vector(signed(input_signal));
                 count         := count +1;
             else
+                adder_ready   <= '1';
                 output_adder  <= output_buffer;
                 count         := 0;
                 output_buffer := (others => '0');
