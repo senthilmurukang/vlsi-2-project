@@ -1,7 +1,7 @@
-LIBRARY ieee;
-USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_ARITH.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.STD_LOGIC_ARITH.all;
+use IEEE.STD_LOGIC_UNSIGNED.all;
 
 ENTITY normalization IS
     GENERIC (
@@ -12,9 +12,8 @@ ENTITY normalization IS
         SIGNAL ready : IN STD_LOGIC;
         SIGNAL adder_data : IN STD_LOGIC_VECTOR(DATA_SIZE - 1 DOWNTO 0);
         SIGNAL normalized_output : OUT STD_LOGIC_VECTOR(DATA_SIZE - 1 DOWNTO 0) := (OTHERS => '0')
-
-    );
-END ENTITY;
+        );
+end entity;
 
 ARCHITECTURE behaviour OF normalization IS
 BEGIN
