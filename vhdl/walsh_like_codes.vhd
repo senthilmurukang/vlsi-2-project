@@ -29,9 +29,11 @@ architecture behaviour of walsh_like_codes is
   signal transmit_signal                    : std_logic                     := '0';
   signal output_vector_decoder              : std_logic_vector(7 downto 0)  := (others => '0');
   signal serial_walsh_like_code_decoder_1   : std_logic                     := '0';
+  signal signed_output_decoder              : std_logic                     := '0';
   signal output_vector_walsh_like_decoder_2 : std_logic_vector(7 downto 0)  := (others => '0');
   signal multiplier_output                  : std_logic_vector(7 downto 0)  := (others => '0');
   signal output_adder_decoder               : std_logic_vector(7 downto 0)  := (others => '0');
+  signal adder_ready_signal                 : std_logic                     := '0';
   signal normalization_output_decoder       : std_logic_vector(7 downto 0)  := (others => '0');
 begin
   internal_clock_generator_inst : entity work.internal_clock_generator
@@ -118,11 +120,18 @@ begin
       input  => walsh_like_code_1,
       output => serial_walsh_like_code_decoder_1
       ); 
+  one_bit_to_n_bit_signed_one_inst_decoder_3 : entity work.one_bit_to_n_bit_signed_one
+    port map (
+      high_speed_clk => clk,
+      input_bit      => serial_walsh_like_code_decoder_1,
+      output_bit     => signed_output_decoder
+      );
+
   serial_to_std_logic_vector_inst_2 : entity work.serial_to_std_logic_vector
     generic map(DATA_WIDTH => 8)
     port map(
       clk    => clk,
-      input  => serial_walsh_like_code_decoder_1,
+      input  => signed_output_decoder,
       output => output_vector_walsh_like_decoder_2
       );
 
@@ -140,14 +149,18 @@ begin
     port map(
       clk          => int_medium_clk,
       input_signal => multiplier_output,
+      adder_ready  => adder_ready_signal,
       output_adder => output_adder_decoder
       ); 
   normalization_inst : entity work.normalization
+    generic map(DATA_SIZE => 8)
     port map(
       clk               => int_low_clk,
+      ready             => adder_ready_signal,
       adder_data        => output_adder_decoder,
       normalized_output => normalization_output_decoder
       );
+
   --output <= normalization_output_decoder;
 
 end behaviour;

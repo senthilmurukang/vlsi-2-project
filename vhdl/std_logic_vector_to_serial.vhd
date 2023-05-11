@@ -1,29 +1,29 @@
-LIBRARY IEEE;
-USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_ARITH.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.STD_LOGIC_ARITH.all;
+use IEEE.STD_LOGIC_UNSIGNED.all;
 
-ENTITY std_logic_vector_to_serial IS
-    GENERIC (DATA_WIDTH : NATURAL := 4);
-    PORT (
-        SIGNAL clk : IN STD_LOGIC;
-        SIGNAL input : IN STD_LOGIC_VECTOR(DATA_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
-        SIGNAL output : OUT STD_LOGIC := '0'
-    );
-END ENTITY;
+entity std_logic_vector_to_serial is
+    generic (DATA_WIDTH : natural := 4);
+    port (
+        signal clk    : in  std_logic;
+        signal input  : in  std_logic_vector(DATA_WIDTH - 1 downto 0) := (others => '0');
+        signal output : out std_logic                                 := '0'
+        );
+end entity;
 
-ARCHITECTURE behaviour OF std_logic_vector_to_serial IS
-    SIGNAL bit_count : INTEGER := 0;
-BEGIN
-    PROCESS
-    BEGIN
-        WAIT UNTIL rising_edge(clk);
-        IF bit_count = (DATA_WIDTH - 1) THEN
-            output <= input(0);
+architecture behaviour of std_logic_vector_to_serial is
+    signal bit_count : integer := -1;
+begin
+    process
+    begin
+        wait until rising_edge(clk);
+        if bit_count = (DATA_WIDTH - 1) then
+            output    <= input(0);
             bit_count <= 0;
-        ELSE
-            output <= input(bit_count + 1);
+        else
+            output    <= input(bit_count + 1);
             bit_count <= bit_count + 1;
-        END IF;
-    END PROCESS;
-END ARCHITECTURE;
+        end if;
+    end process;
+end architecture;
