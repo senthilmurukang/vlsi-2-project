@@ -1,31 +1,37 @@
-LIBRARY ieee;
-USE IEEE.STD_LOGIC_1164.ALL;
-USE IEEE.STD_LOGIC_ARITH.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.STD_LOGIC_ARITH.all;
+use IEEE.STD_LOGIC_UNSIGNED.all;
 
-ENTITY serial_to_std_logic_vector IS
-    GENERIC (DATA_WIDTH : NATURAL := 4);
-    PORT (
-        SIGNAL clk : IN STD_LOGIC;
-        SIGNAL input : IN STD_LOGIC;
-        SIGNAL output : OUT STD_LOGIC_VECTOR(DATA_WIDTH - 1 DOWNTO 0) := (OTHERS => '0')
-    );
-END ENTITY;
+entity serial_to_std_logic_vector is
+    generic (DATA_WIDTH : natural := 4);
+    port (
+        signal clk    : in  std_logic;
+        signal input  : in  std_logic;
+        signal output : out std_logic_vector(DATA_WIDTH - 1 downto 0) := (others => '0')
+        );
+end entity;
 
-ARCHITECTURE behaviour OF serial_to_std_logic_vector IS
-BEGIN
-    PROCESS (clk)
-        VARIABLE count : INTEGER := 0;
-        VARIABLE int_output : STD_LOGIC_VECTOR(DATA_WIDTH - 1 DOWNTO 0) := (OTHERS => '0');
-    BEGIN
-        IF rising_edge(clk) THEN
-            int_output(count) := input;
-            IF count = (output'length - 1) THEN
+architecture behaviour of serial_to_std_logic_vector is
+begin
+    process (clk)
+        variable count      : integer                                   := 0;
+        variable int_output : std_logic_vector(DATA_WIDTH - 1 downto 0) := (others => '0');
+    begin
+        if rising_edge(clk) then
+            if count = 0 then
+                output     <= int_output;
+                int_output := (others => '0');
+            end if;
+            if input = '0' then
+                int_output(count) := '0';
+            else int_output(count) := '1';
+            end if;
+            if count = (output'length - 1) then
                 count := 0;
-                output <= int_output;
-            ELSE
+            else
                 count := count + 1;
-            END IF;
-        END IF;
-    END PROCESS;
-END ARCHITECTURE;
+            end if;
+        end if;
+    end process;
+end architecture;
