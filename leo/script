@@ -1,0 +1,17 @@
+set HOME {/afs/cad.njit.edu/u/d/v/dv336}
+set SRC {/afs/cad.njit.edu/u/d/v/dv336/ngit/v2/vlsi-2-project/vhdl}
+set edifout_power_ground_style_is_net TRUE
+set vhdl_write_use_packages{library ieee, adk; use ieee.std_logic_1164.all, adk.adk_components.all;}
+load_library $HOME/.leonardo/tsmc018_typ
+read -format vhdl -dont_elaborate $SRC/normalization.vhd
+elaborate -technology tsmc018_typ normalization
+elaborate normalization
+pre_optimize -common_logic -unused_logic -extract
+optimize -target tsmc018_typ -macro -auto 
+write normalization.v
+optimize_timing -force
+report_delay -critical_paths -show_nets
+report_area -cell_usage -hierarchy -all_leafs
+exit
+
+
