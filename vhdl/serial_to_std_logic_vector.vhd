@@ -13,25 +13,24 @@ entity serial_to_std_logic_vector is
 end entity;
 
 architecture behaviour of serial_to_std_logic_vector is
+    signal counter              : integer range 0 to DATA_WIDTH + 1         := 0;
+    signal data_reg             : std_logic_vector(DATA_WIDTH - 1 downto 0) := (others => '0');
+    signal previous_input_value : std_logic                                 := '0';
 begin
     process (clk)
-        variable count      : integer                                   := 0;
-        variable int_output : std_logic_vector(DATA_WIDTH - 1 downto 0) := (others => '0');
     begin
         if rising_edge(clk) then
-            if count = 0 then
-                output     <= int_output;
-                int_output := (others => '0');
+            if counter = 0 then
+                data_reg <= (others => '0');
+            elsif counter >= 1 and counter <= DATA_WIDTH then
+                data_reg(counter - 1) <= previous_input_value;
             end if;
-            if input = '0' then
-                int_output(count) := '0';
-            else int_output(count) := '1';
+            counter <= (counter + 1);
+            if counter = DATA_WIDTH then
+                output  <= data_reg;
+                counter <= 0;
             end if;
-            if count = (output'length - 1) then
-                count := 0;
-            else
-                count := count + 1;
-            end if;
+            previous_input_value <= input;
         end if;
     end process;
 end architecture;
