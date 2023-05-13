@@ -7,7 +7,7 @@ entity walsh_like_codes is
   port (
     signal clk    : in  std_logic;
     signal reset  : in  std_logic;
-    signal output : out std_logic
+    signal output : out std_logic_vector(7 downto 0)
     );
 end entity;
 
@@ -161,6 +161,6 @@ begin
       normalized_output => normalization_output_decoder
       );
 
-  --output <= normalization_output_decoder;
+  output <= normalization_output_decoder;
 
 end behaviour;
